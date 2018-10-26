@@ -1,0 +1,10 @@
+port: 9005
+encryptKey: "tokenkey"
+
+db:
+  host: "127.0.0.1"
+  user: "root"
+  name: "paopao"
+  password: "123456"
+  prefix: "prefix"
+  port: 3306

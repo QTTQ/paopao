@@ -1,0 +1,64 @@
+{{template "header".}}
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span2">
+		</div>
+		<div class="span6">
+			<ul class="breadcrumb">
+				<li>
+					<a href="#">主页</a> <span class="divider">/</span>
+				</li>
+				<li>
+					<a href="#">类目</a> <span class="divider">/</span>
+				</li>
+				<li class="active">
+					主题
+				</li>
+			</ul>
+			<form class="form-horizontal">
+				<div class="control-group">
+					<label class="control-label" for="inputEmail">标题</label>
+					<div class="controls">
+						<input id="inputEmail" type="text" />
+					</div>
+				</div>
+				<div class="control-group">
+<ul id="myTab" class="nav nav-tabs">
+	<li class="active">
+		<a href="#home" data-toggle="tab">
+			 编辑
+		</a>
+	</li>
+	<li><a href="#html" data-toggle="tab">预览</a></li>
+</ul>
+<div id="myTabContent" class="tab-content">
+	<div class="tab-pane fade in active" id="home">
+		<textarea  id="md" style="height:100px;" placeholder="请输入markdown"></textarea>
+	</div>
+	<div  id="html" class="tab-pane fade"  >
+	</div>
+</div>
+				<div class="control-group">
+					<div class="controls">
+						<label class="checkbox"><input type="checkbox" /> Remember me</label> <button class="btn" type="submit">登陆</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="span4">
+			<h2>
+					Markdown用法
+			</h2>
+			<p>
+				Markdown使用方法
+			</p>
+			
+		</div>
+	</div>
+</div>
+<script>
+    $("#md").on("keyup blur",function () {
+        $('#html').html(marked($("#md").val()))
+    })
+</script>
+{{template "footer".}}

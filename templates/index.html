@@ -1,0 +1,82 @@
+{{template "header".}}
+  	<!-- 技术日记 -->
+  	<div class="container div_divider">
+  		<!-- 分割线 -->
+  		<h1>Marlboro の 异次元世界ヾ(=･ω･=)o</h1>
+  		<div class="row">
+  			<!-- 文章列表 -->
+  			<div class="col-xs-9">
+  				<div class="list-group div_article">
+  					<!-- 子头栏 -->
+  					<a href="#" class="list-group-item active item_article_first">
+  						<h4 class="list-group-item-heading">
+							你指尖跃动的电光，是我此生不灭的信仰(๑•̀ㅂ•́)و✧
+  						</h4>
+  					</a>
+						{{range .payload}}
+						<!-- 文章列表 -->
+  					<div class="list-group-item item_article">
+  						<div class="row">
+  							<div class="div_center col-xs-9">
+  								<div class="list-group-item-heading div_article_title">
+										<a href="/article/view/{{.ID}}">
+										<strong>
+  										{{.Title}}
+  									</strong>
+  								</div>
+									</a>
+  								<p class="list-group-item-text div_article_content">
+  									{{.Content}}
+  								</p>
+  							</div>
+  						</div>
+  					</div>
+						{{end}}
+  				</div>
+  			</div>
+  			<!-- 右侧 -->
+  			<div class="col-xs-3 div_record">
+  				<!-- 用户信息 -->
+  				<div class="jumbotron div_userinfo">
+  					<img class="iv_user_head img-circle" src="img/ic_p5.jpg">
+  					<div style="display: inline-block; margin-left: 12px;font-size: 18px;">{{.username}}</div>
+  				</div>
+  				<!-- 小功能列表 -->
+  				<div class="row div_little_func">
+  					<div class="col-xs-4">
+  						<button class="btn btn-default btn-cricle btn_login" data-toggle="modal" data-target="#loginModal">登</button>
+  					</div>
+  					<div class="col-xs-4">
+  						<button class="btn btn-default btn-cricle btn_stay">留</button>
+  					</div>
+  					<div class="col-xs-4">
+							<button class="btn btn-default btn-cricle btn_write"><a href="/article/create">写</a></button>
+  					</div>
+  				</div>
+  			</div>
+  		</div>
+  		<!-- 登录模态框 -->
+  		<div class="modal fade bs-example-modal-sm" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  			<div class="modal-dialog modal-sm" role="document">
+  				<div class="modal-content">
+  					<div class="modal-header">
+  						<div class="modal-title" id="myModalLabel" style="text-align: center;">登录</div>
+  					</div>
+  					<div class="modal-body">
+  						<form class="form-horizontal" style="padding: 12px;">
+  							<div class="form-group">
+  								<input type="text" class="form-control" id="inputEmail3" placeholder="账户名">  		
+  							</div>
+  							<div class="form-group">			
+  								<input type="password" class="form-control" id="inputPassword3" placeholder="密码">
+  							</div>
+  						</form>
+  					</div>
+  					<div class="modal-footer" style="text-align: center;">
+  						<button type="button" class="btn btn-primary" style="width: 100%">Login</button>
+  					</div>
+  				</div>
+  			</div>
+  		</div>
+  	</div>
+ {{template "footer"}}
