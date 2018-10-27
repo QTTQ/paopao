@@ -17,15 +17,15 @@ import (
 )
 
 type MessageParams struct {
-Id  string `form:"id" json:"id"`
+	Id         string `form:"id" json:"id"`
 	ArticleId  string `form:"articleId" json:"articleId"`
 	Uid        string `form:"uid" json:"uid"`
 	UserName   string `form:"name" json:"name"`
-	Actor   string `form:"actor" json:"actor"`
+	Actor      string `form:"actor" json:"actor"`
 	Context    string `form:"context" json:"context"`
 	Thunmbs    string `form:"thunmbs" json:"thunmbs"`
 	ThunmbsUid string `form:"thunmbsUid" json:"thunmbsUid"`
-	ToMesId      string    `form:"toMesId" json:"toMesId"`
+	ToMesId    string `form:"toMesId" json:"toMesId"`
 	Page       string `form:"page" json:"page"`
 }
 
