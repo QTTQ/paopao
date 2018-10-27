@@ -9,23 +9,25 @@
 package models
 
 import (
-	"paopaoServer/db"
+	"paopao/db"
 	"time"
 )
 
 type User struct {
-	Uid      int   `gorm:"primary_key"`
-	UserName string `json:"username"`
-	PassWord string `json:"password"`
-	Actor string `gorm:"default null"`
-	Sex int `gorm:"default 1"`
-	RegTime  string
+	Uid      int    `gorm:"primary_key" form:"uid" json:"uid" `
+	unionid  int    `gorm:"type:int(20) default null"`
+	PhoneNum int    `gorm:"type:int(20) default null" form:"phoneNum" json:"phoneNum"`
+	UserName string `gorm:"type:varchar(100)" form:"name" json:"name"`
+	passWord string `gorm:"type:varchar(100)"`
+	Actor    string `gorm:"type:varchar(200) default null" form:"actor" json:"actor"`
+	Sex      int    `gorm:"type:int(2) default 1" form:"sex" json:"sex"`
+	RegTime  string `gorm:"type: datetime" form:"regTime" json:"regTime"`
 }
 
 func UserRegister(name, pass string) (*User, error) {
 	t := time.Now()
 	// user := User{UserName: name, PassWord: pass, RegTime: t.Format("2006-01-02 15:04:05")}
-	user := User{UserName: name, PassWord: pass,Actor:"",Sex:1, RegTime: t.Format("2006-01-02 15:04:05")}
+	user := User{UserName: name, passWord: pass, Sex: 1, RegTime: t.Format("2006-01-02 15:04:05")}
 	db.DB.Create(&user)
 	return &user, nil
 }
@@ -43,21 +45,21 @@ func UserLogin(name, pass string) (*User, error) {
 	return nil, err
 }
 
-func GetUser(uid int) (*User ,error){
+func GetUser(uid int) (*User, error) {
 	user := User{}
 	que := db.DB.Where("uid = ?", uid).Find(&user)
 	if que.Error != nil {
 		// panic(que.Error)
 		return nil, err
 	}
-	return &user,nil
+	return &user, nil
 }
 
 func GetName(name string) bool {
 	user := User{}
-	if err:=db.DB.Where("user_name = ?", name).Find(&user).Error; err != nil {
+	if err := db.DB.Where("user_name = ?", name).Find(&user).Error; err != nil {
 		// panic(que.Error)
-	return false
+		return false
 	}
 	if len(user.UserName) != 0 {
 		return true

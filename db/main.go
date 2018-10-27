@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/jinzhu/gorm"
-	"paopaoServer/config"
+	"paopao/config"
 	_ "github.com/go-sql-driver/mysql"
 )
 

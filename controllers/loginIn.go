@@ -12,9 +12,10 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"paopaoServer/config"
-	"paopaoServer/models"
-	"paopaoServer/util"
+	"paopao/config"
+	"paopao/models"
+	"paopao/util"
+	// "strconv"
 	"time"
 )
 
@@ -22,13 +23,13 @@ func LoginIn(c *gin.Context) {
 	loginParams := LoginParams{}
 	err := c.Bind(&loginParams)
 	if len(loginParams.Username) <= 0 || len(loginParams.Password) <= 0 {
-		c.JSON(200, ApiRes{
+		c.JSON(http.StatusOK, ApiRes{
 			Code: 1,
 			Msg:  "账号或密码不能为空",
 		})
 	}
 	if err != nil {
-		c.JSON(200, ApiRes{
+		c.JSON(http.StatusOK, ApiRes{
 			Code: 1,
 			Msg:  "登录数据格式不正确！",
 		})
@@ -36,31 +37,43 @@ func LoginIn(c *gin.Context) {
 	}
 	user, err := models.UserLogin(loginParams.Username, loginParams.Password)
 	if err != nil {
-		c.JSON(200, ApiRes{
+		c.JSON(http.StatusOK, ApiRes{
 			Code: 1,
 			Msg:  "登录失败",
 		})
 		return
 	}
 	token, err := utils.Encrypt(fmt.Sprintf("%d:%d", user.Uid, time.Now().Unix()+config.TOKEN_EXPIRE_TIME), []byte(config.EncryptKey))
-	type UserData struct {
-		Uid      int   `gorm:"primary_key"`
-		UserName string `json:"username"`
-		Actor string `gorm:"default null"`
-		Sex int `gorm:"default 1"`
-		RegTime  string
-	}
-	data:=UserData{}
-	data.UserName=user.UserName
-	data.Actor=user.Actor
-	data.Uid=user.Uid
-	data.Sex=user.Sex
+	// type UserData struct {
+	// 	Uid      int    `json:"uid"`
+	// 	PhoneNum int    `json:"phoneNum"`
+	// 	UserName string `json:"name"`
+	// 	Actor    string `json:"actor"`
+	// 	Sex      int    `json:"sex"`
+	// }
+
+	// // var	userData map[string]string
+	// var userData map[string]string = map[string]string{}
+	// // var	userData map[string]string =make(map[string]string,10)
+	// userData["name"] = user.UserName
+	// userData["phoneNum"] = strconv.Itoa(user.PhoneNum)
+	// userData["actor"] = user.Actor
+	// userData["uid"] = strconv.Itoa(user.Uid)
+	// userData["sex"] = strconv.Itoa(user.Sex)
+
+	// userData := UserData{}
+	// userData.Uid = user.Uid
+	// userData.UserName = user.UserName
+	// userData.PhoneNum = user.PhoneNum
+	// userData.Actor = user.Actor
+	// userData.Sex = user.Sex
 	c.JSON(http.StatusOK, ApiRes{
 		Code: 0,
 		Msg:  "登录成功",
 		Data: gin.H{
 			"token": token,
-			"user":&data,
+			// "user":  &userData,
+			"user": user,
 		},
 	})
 	return

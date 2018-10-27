@@ -11,7 +11,7 @@ package controllers
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"paopaoServer/models"
+	"paopao/models"
 	"strconv"
 )
 
@@ -21,7 +21,7 @@ func AllArticle(c *gin.Context) {
 	n, err := strconv.Atoi(page)
 	allarticle, err := models.AllArticle(n)
 	if err != nil {
-		c.JSON(200, ApiRes{
+		c.JSON(http.StatusOK, ApiRes{
 			Code: 1,
 			Msg:  "登录失败",
 		})
@@ -49,7 +49,7 @@ func MyArticle(c *gin.Context) {
 	page, err := strconv.Atoi(myParams.Page)
 	allarticle, err := models.MyArticle(uid, page)
 	if err != nil {
-		c.JSON(200, ApiRes{
+		c.JSON(http.StatusOK, ApiRes{
 			Code: 1,
 			Msg:  "登录失败",
 		})
@@ -77,7 +77,7 @@ func CreatArticle(c *gin.Context) {
 	uid, err := strconv.Atoi(createParams.Uid)
 	article, err := models.CreatArticle(uid, createParams.Title, createParams.Context)
 	if err != nil {
-		c.JSON(200, ApiRes{
+		c.JSON(http.StatusOK, ApiRes{
 			Code: 1,
 			Msg:  "登录失败",
 		})
@@ -98,7 +98,7 @@ func DeleteArticle(c *gin.Context) {
 	page, err := strconv.Atoi(deleteParams.Page)
 	res, err := models.DeleteArticle(page)
 	if err != nil {
-		c.JSON(200, ApiRes{
+		c.JSON(http.StatusOK, ApiRes{
 			Code: 1,
 			Msg:  "删除文章失败",
 		})
@@ -113,18 +113,20 @@ func DeleteArticle(c *gin.Context) {
 	})
 	return
 }
+
 //删除
-type UpdateArticleParams struct{
-	Id string `form:"id" json:"id"` 
-	Context string `form:"text" json:"text"` 
+type UpdateArticleParams struct {
+	Id      string `form:"id" json:"id"`
+	Context string `form:"text" json:"text"`
 }
+
 func UpdateArticle(c *gin.Context) {
 	updateParams := UpdateArticleParams{}
 	c.Bind(&updateParams)
 	id, err := strconv.Atoi(updateParams.Id)
-	res, err := models.UpdateArticle(id,updateParams.Context)
+	res, err := models.UpdateArticle(id, updateParams.Context)
 	if err != nil {
-		c.JSON(200, ApiRes{
+		c.JSON(http.StatusOK, ApiRes{
 			Code: 1,
 			Msg:  "删除文章失败",
 		})
@@ -133,6 +135,35 @@ func UpdateArticle(c *gin.Context) {
 	c.JSON(http.StatusOK, ApiRes{
 		Code: 0,
 		Msg:  "删除文章成功",
+		Data: gin.H{
+			"data": res,
+		},
+	})
+	return
+}
+
+func ThunmbToArticle(c *gin.Context) {
+	artIdStr := c.DefaultPostForm("artId", "0")
+	artId, err := strconv.Atoi(artIdStr)
+	println(artId, "----------------------")
+	if err != nil || artId <= 0 {
+		c.JSON(http.StatusOK, ApiRes{
+			Code: 1,
+			Msg:  "参数错误",
+		})
+		return
+	}
+	res, err := models.ThunmbToArticle(artId)
+	if err != nil {
+		c.JSON(http.StatusOK, ApiRes{
+			Code: 1,
+			Msg:  "点赞失败",
+		})
+		return
+	}
+	c.JSON(http.StatusOK, ApiRes{
+		Code: 0,
+		Msg:  "点赞成功",
 		Data: gin.H{
 			"data": res,
 		},

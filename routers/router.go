@@ -2,8 +2,8 @@
 package routers
 
 import (
-	"paopaoServer/controllers"
-	"paopaoServer/middleware"
+	"paopao/controllers"
+	"paopao/middleware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -24,9 +24,18 @@ func InitRouters() *gin.Engine {
 	{
 		jwtrouter.POST("/AllArticle", controllers.AllArticle)
 		jwtrouter.POST("/MyArticle", controllers.MyArticle)
+
+		//文章
 		jwtrouter.POST("/CreatArticle", controllers.CreatArticle)
 		jwtrouter.POST("/DeleteArticle", controllers.DeleteArticle)
 		jwtrouter.POST("/UpdateArticle", controllers.UpdateArticle)
+		jwtrouter.POST("/ThunmbToArticle", controllers.ThunmbToArticle)
+		
+		//评论
+		jwtrouter.POST("/CurrentArticledMessages", controllers.CurrentArticledMessages)
+		jwtrouter.POST("/CurrentArticledWirteMessage", controllers.CurrentArticledWirteMessage)
+		jwtrouter.POST("/CurrentArticledMessageOtherMessage", controllers.CurrentArticledMessageOtherMessage)
+		jwtrouter.POST("/ThunmbToCurrentArticledMessage", controllers.ThunmbToCurrentArticledMessage)
 	}
 	return router
 }

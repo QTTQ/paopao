@@ -12,9 +12,9 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"paopaoServer/config"
-	"paopaoServer/models"
-	"paopaoServer/util"
+	"paopao/config"
+	"paopao/models"
+	"paopao/util"
 	"time"
 	// "io/ioutil"
 )
@@ -23,7 +23,7 @@ func Register(c *gin.Context) {
 	regParams := LoginParams{}
 	err := c.Bind(&regParams)
 	if regParams.Password == "" || regParams.Username == "" {
-		c.JSON(200,
+		c.JSON(http.StatusOK,
 			ApiRes{
 				Code: 1,
 				Msg:  "姓名或密码不能为空",
@@ -31,7 +31,7 @@ func Register(c *gin.Context) {
 		return
 	}
 	if err != nil {
-		c.JSON(200,
+		c.JSON(http.StatusOK,
 			ApiRes{
 				Code: 1,
 				Msg:  "获取数据错误",
@@ -39,7 +39,7 @@ func Register(c *gin.Context) {
 		return
 	}
 	if len(regParams.Username) < 0 || len(regParams.Password) < 0 {
-		c.JSON(200,
+		c.JSON(http.StatusOK,
 			ApiRes{
 				Code: 1,
 				Msg:  "账号或密码不能为空",
@@ -48,7 +48,7 @@ func Register(c *gin.Context) {
 	}
 	hadUser := models.GetName(regParams.Username) //判断是否已经注册
 	if hadUser {
-		c.JSON(200,
+		c.JSON(http.StatusOK,
 			ApiRes{
 				Code: 1,
 				Msg:  "用户已经存在",
@@ -57,18 +57,17 @@ func Register(c *gin.Context) {
 	}
 	user, err := models.UserRegister(regParams.Username, regParams.Password)
 	if err != nil {
-		c.JSON(200,
+		c.JSON(http.StatusOK,
 			ApiRes{
 				Code: 1,
 				Msg:  "登录数据格式不正确！",
 			})
 		return
 	}
-	println(user.Uid, user.UserName, user.PassWord, "-----uid-------")
 	token, err := utils.Encrypt(fmt.Sprintf("%d:%d", user.Uid, time.Now().Unix()+config.TOKEN_EXPIRE_TIME), []byte(config.EncryptKey))
 	c.JSON(http.StatusOK,
 		ApiRes{
-			Code: 1,
+			Code: 0,
 			Msg:  "成功注册",
 			Data: gin.H{
 				"token": token,
