@@ -15,6 +15,8 @@ import (
 	"strconv"
 )
 
+const DST = "static/img/"
+
 func AllArticle(c *gin.Context) {
 	// page:=c.PostForm("page")
 	page := c.DefaultPostForm("page", "0")
@@ -75,7 +77,17 @@ func CreatArticle(c *gin.Context) {
 	createParams := CreatArticleParams{}
 	c.Bind(&createParams)
 	uid, err := strconv.Atoi(createParams.Uid)
-	article, err := models.CreatArticle(uid, createParams.Title, createParams.Context)
+	paths := ""
+	form, _ := c.MultipartForm()
+	files := form.File["upload"]
+
+	for _, file := range files {
+		paths += DST + file.Filename + ","
+		// Upload the file to specific dst.
+		c.SaveUploadedFile(file, DST+file.Filename)
+	}
+
+	article, err := models.CreatArticle(uid, createParams.Title, createParams.Context, paths)
 	if err != nil {
 		c.JSON(http.StatusOK, ApiRes{
 			Code: 1,

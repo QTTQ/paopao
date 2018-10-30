@@ -23,6 +23,7 @@ type Article struct {
 	Sex     int    `gorm:"type:int(10)" form:"sex" json:"sex"`              //性别
 	Title   string `gorm:"type:varchar(100)" form:"title" json:"title"`     //文章主题
 	Context string `gorm:"type:varchar(200)" form:"context" json:"context"` //文章内容
+	DownloadAddress string `gorm:"type:varchar(200)" form:"downloadAddress" json:"downloadAddress"` //下载地址
 	Thunmbs int    `gorm:"type:int(20)" form:"thunmbs" json:"thunmbs"`      //点赞
 	CtTime  string `gorm:"type: datetime" form:"ctTime" json:"ctTime"`      //创建时间
 }
@@ -51,9 +52,9 @@ func MyArticle(uid, page int) ([]Article, error) {
 }
 
 //写文章
-func CreatArticle(uid int, title, context string) (*Article, error) {
+func CreatArticle(uid int, title, context,paths string) (*Article, error) {
 	user, err := GetUser(uid)
-	article := Article{Uid: uid, Name: user.UserName, Actor: user.Actor, Sex: user.Sex, Title: title, Context: context, CtTime: time.Now().Format("2006-01-02 15:04:05")} //获取切片   这样可以获取多个   要不 只能获取最后一个
+	article := Article{Uid: uid, Name: user.UserName, Actor: user.Actor, Sex: user.Sex, Title: title, Context: context,DownloadAddress:paths, CtTime: time.Now().Format("2006-01-02 15:04:05")} //获取切片   这样可以获取多个   要不 只能获取最后一个
 	que := db.DB.Create(&article)
 	if que.Error != nil {
 		// panic(que.Error)

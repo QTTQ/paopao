@@ -36,6 +36,11 @@ func InitRouters() *gin.Engine {
 		jwtrouter.POST("/CurrentArticledWirteMessage", controllers.CurrentArticledWirteMessage)
 		jwtrouter.POST("/CurrentArticledMessageOtherMessage", controllers.CurrentArticledMessageOtherMessage)
 		jwtrouter.POST("/ThunmbToCurrentArticledMessage", controllers.ThunmbToCurrentArticledMessage)
+
+
+		//upload
+		jwtrouter.POST("/Upload", controllers.Upload)
+
 	}
 	return router
 }

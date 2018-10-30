@@ -78,12 +78,3 @@ func LoginIn(c *gin.Context) {
 	})
 	return
 }
-
-// func Async(c *gin.Context) {
-// 	cCp := c.Copy()
-// 	go func() {
-// 		time.Sleep(5 * time.Second)
-// 		log.Println("Done! in path" + cCp.Request.URL.Path)
-// 	}()
-// 	c.JSON(http.StatusOK, gin.H{"data": "Async"})
-// }
