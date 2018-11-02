@@ -6,14 +6,13 @@
 //  * @Email: 1321510155@qq.com
 //  */
 
- package models
+package models
 
 //  import (
 // 	 "paopao/db"
 // 	 "time"
 //  )
- 
+
 //  func upload(n int)(){
 
 //  }
- 

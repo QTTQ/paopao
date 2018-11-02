@@ -2,13 +2,14 @@
  * @Author: QTTQ
  * @Date: 2018-10-23 11:20:13
  * @LastEditors: QTTQ
- * @LastEditTime: 2018-10-23 15:53:15
+ * @LastEditTime: 2018-11-02 20:15:05
  * @Email: 1321510155@qq.com
  */
 
 package middleware
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"paopao/config"
@@ -19,8 +20,6 @@ import (
 	"strings"
 	"time"
 )
-
-
 
 const (
 	AUTH_HEADER_NAME = "X-Auth-Token"
@@ -48,26 +47,27 @@ func UserAuth() gin.HandlerFunc {
 					expireTime, err := strconv.ParseInt(parts[1], 10, 64)
 					uid, _ := strconv.Atoi(parts[0])
 					if err == nil && expireTime > time.Now().Unix() && uid > 0 {
-						uinfo,err := models.GetUser(uid)
-						if err!=nil{
+						uinfo, err := models.GetUser(uid)
+						if err != nil {
 							panic(err)
 						}
+						fmt.Println(uid, uinfo, "----------------成功-------")
 						c.Set(USER_ID_KEY, uid)
 						c.Set(USER_DATA_KEY, uinfo)
 						return
 					}
-
 				}
 			}
 		}
 		c.Abort()
-		c.JSON(http.StatusUnauthorized,controllers.ApiRes{
-			Code:1,
-			Msg:"用户未登录",
+		c.JSON(http.StatusUnauthorized, controllers.ApiRes{
+			Code: 1,
+			Msg:  "用户未登录",
 		})
 		return
 	}
 }
+
 // func Async(c *gin.Context) {
 // 	cCp := c.Copy()
 // 	go func() {

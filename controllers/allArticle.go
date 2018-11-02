@@ -2,13 +2,14 @@
  * @Author: QTTQ
  * @Date: 2018-10-23 11:19:50
  * @LastEditors: QTTQ
- * @LastEditTime: 2018-11-02 13:11:26
+ * @LastEditTime: 2018-11-02 20:14:28
  * @Email: 1321510155@qq.com
  */
 
 package controllers
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"paopao/models"
@@ -47,7 +48,12 @@ type MyArticleParams struct {
 func MyArticle(c *gin.Context) {
 	myParams := MyArticleParams{}
 	c.Bind(&myParams)
-	uid, err := strconv.Atoi(myParams.Uid)
+	uidInter, _ := c.Get("uid")
+	uinfoInter, _ := c.Get("udata")
+
+	uid := uidInter.(int)//取接口里的type类型
+	uininfo:=uinfoInter.(*models.User)
+	fmt.Println(uid,uininfo.Uid,"---------------uininfo-----------------") //取接口里的结构体
 	page, err := strconv.Atoi(myParams.Page)
 	allarticle, err := models.MyArticle(uid, page)
 	if err != nil {
@@ -183,22 +189,22 @@ func ThunmbToArticle(c *gin.Context) {
 }
 
 func GetMostThunmbArticle(c *gin.Context) {
-		page := c.DefaultPostForm("page", "0")
-		n, err := strconv.Atoi(page)
-		allarticle, err := models.GetMostThunmbArticle(n)
-		if err != nil {
-			c.JSON(http.StatusOK, ApiRes{
-				Code: 1,
-				Msg:  "获取点赞文章失败",
-			})
-			return
-		}
+	page := c.DefaultPostForm("page", "0")
+	n, err := strconv.Atoi(page)
+	allarticle, err := models.GetMostThunmbArticle(n)
+	if err != nil {
 		c.JSON(http.StatusOK, ApiRes{
-			Code: 0,
-			Msg:  "获取文章成功",
-			Data: gin.H{
-				"data": allarticle,
-			},
+			Code: 1,
+			Msg:  "获取点赞文章失败",
 		})
 		return
+	}
+	c.JSON(http.StatusOK, ApiRes{
+		Code: 0,
+		Msg:  "获取文章成功",
+		Data: gin.H{
+			"data": allarticle,
+		},
+	})
+	return
 }

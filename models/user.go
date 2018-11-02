@@ -18,7 +18,7 @@ type User struct {
 	Unionid  int    `gorm:"type:int(20) default null" form:"unionid" json:"unionid"`
 	PhoneNum int    `gorm:"type:int(20) default null" form:"phoneNum" json:"phoneNum"`
 	UserName string `gorm:"type:varchar(100)" form:"name" json:"name"`
-	PassWord string  `gorm:"type:varchar(100)" form:"password" json:"password"`
+	PassWord string `gorm:"type:varchar(100)" form:"password" json:"password"`
 	Actor    string `gorm:"type:varchar(200) default null" form:"actor" json:"actor"`
 	Sex      int    `gorm:"type:int(2) default 1" form:"sex" json:"sex"`
 	RegTime  string `gorm:"type: datetime" form:"regTime" json:"regTime"`
@@ -27,10 +27,10 @@ type User struct {
 func UserRegister(name, pass string) (*User, error) {
 	t := time.Now()
 	// user := User{UserName: name, PassWord: pass, RegTime: t.Format("2006-01-02 15:04:05")}
-	println(pass,"-------------------------------")
+	println(pass, "-------------------------------")
 	user := User{UserName: name, PassWord: pass, Sex: 1, RegTime: t.Format("2006-01-02 15:04:05")}
 	db.DB.Create(&user)
-	user.PassWord=""
+	user.PassWord = ""
 	return &user, nil
 }
 
