@@ -2,7 +2,7 @@
  * @Author: QTTQ
  * @Date: 2018-10-23 11:19:50
  * @LastEditors: QTTQ
- * @LastEditTime: 2018-10-25 16:47:53
+ * @LastEditTime: 2018-11-02 13:11:26
  * @Email: 1321510155@qq.com
  */
 
@@ -86,7 +86,6 @@ func CreatArticle(c *gin.Context) {
 		// Upload the file to specific dst.
 		c.SaveUploadedFile(file, DST+file.Filename)
 	}
-
 	article, err := models.CreatArticle(uid, createParams.Title, createParams.Context, paths)
 	if err != nil {
 		c.JSON(http.StatusOK, ApiRes{
@@ -181,4 +180,25 @@ func ThunmbToArticle(c *gin.Context) {
 		},
 	})
 	return
+}
+
+func GetMostThunmbArticle(c *gin.Context) {
+		page := c.DefaultPostForm("page", "0")
+		n, err := strconv.Atoi(page)
+		allarticle, err := models.GetMostThunmbArticle(n)
+		if err != nil {
+			c.JSON(http.StatusOK, ApiRes{
+				Code: 1,
+				Msg:  "获取点赞文章失败",
+			})
+			return
+		}
+		c.JSON(http.StatusOK, ApiRes{
+			Code: 0,
+			Msg:  "获取文章成功",
+			Data: gin.H{
+				"data": allarticle,
+			},
+		})
+		return
 }

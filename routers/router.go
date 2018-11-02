@@ -20,9 +20,10 @@ func InitRouters() *gin.Engine {
 	// jwtrouter := router.Group("/jwt")
 	// jwtrouter.Use(middleware.UserAuth())
 	// jwtrouter := router.Group("/jwt",middleware.UserAuth()) //token
+	router.POST("/AllArticle", controllers.AllArticle) //获取所有文章
+	router.POST("/GetMostThunmbArticle", controllers.GetMostThunmbArticle)//获取点赞最多文章
 	jwtrouter := router.Group("/jwt") //token
 	{
-		jwtrouter.POST("/AllArticle", controllers.AllArticle)
 		jwtrouter.POST("/MyArticle", controllers.MyArticle)
 
 		//文章

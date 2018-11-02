@@ -2,7 +2,7 @@
  * @Author: QTTQ
  * @Date: 2018-10-25 13:25:44
  * @LastEditors: QTTQ
- * @LastEditTime: 2018-10-25 16:50:23
+ * @LastEditTime: 2018-11-02 13:10:29
  * @Email: 1321510155@qq.com
  */
 
@@ -15,10 +15,10 @@ import (
 
 type User struct {
 	Uid      int    `gorm:"primary_key" form:"uid" json:"uid" `
-	unionid  int    `gorm:"type:int(20) default null"`
+	Unionid  int    `gorm:"type:int(20) default null" form:"unionid" json:"unionid"`
 	PhoneNum int    `gorm:"type:int(20) default null" form:"phoneNum" json:"phoneNum"`
 	UserName string `gorm:"type:varchar(100)" form:"name" json:"name"`
-	passWord string `gorm:"type:varchar(100)"`
+	PassWord string  `gorm:"type:varchar(100)" form:"password" json:"password"`
 	Actor    string `gorm:"type:varchar(200) default null" form:"actor" json:"actor"`
 	Sex      int    `gorm:"type:int(2) default 1" form:"sex" json:"sex"`
 	RegTime  string `gorm:"type: datetime" form:"regTime" json:"regTime"`
@@ -27,8 +27,10 @@ type User struct {
 func UserRegister(name, pass string) (*User, error) {
 	t := time.Now()
 	// user := User{UserName: name, PassWord: pass, RegTime: t.Format("2006-01-02 15:04:05")}
-	user := User{UserName: name, passWord: pass, Sex: 1, RegTime: t.Format("2006-01-02 15:04:05")}
+	println(pass,"-------------------------------")
+	user := User{UserName: name, PassWord: pass, Sex: 1, RegTime: t.Format("2006-01-02 15:04:05")}
 	db.DB.Create(&user)
+	user.PassWord=""
 	return &user, nil
 }
 
