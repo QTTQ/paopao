@@ -24,9 +24,10 @@ func InitRouters() *gin.Engine {
 	jwtrouter := router.Group("/jwt",middleware.UserAuth()) //token
 	// jwtrouter := router.Group("/jwt") //token
 	{
-		jwtrouter.POST("/MyArticle", controllers.MyArticle)
-
+		//获取用户信息
+		jwtrouter.POST("/GetUser", controllers.GetUser)
 		//文章
+		jwtrouter.POST("/MyArticle", controllers.MyArticle)
 		jwtrouter.POST("/CreatArticle", controllers.CreatArticle)
 		jwtrouter.POST("/DeleteArticle", controllers.DeleteArticle)
 		jwtrouter.POST("/UpdateArticle", controllers.UpdateArticle)

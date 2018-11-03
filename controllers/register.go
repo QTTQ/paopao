@@ -22,7 +22,7 @@ import (
 func Register(c *gin.Context) {
 	regParams := models.User{}
 	err := c.Bind(&regParams)
-	fmt.Println(regParams,"--------------------------")
+	fmt.Println(regParams, "--------------------------")
 	if regParams.PassWord == "" || regParams.UserName == "" {
 		c.JSON(http.StatusOK,
 			ApiRes{
@@ -56,7 +56,7 @@ func Register(c *gin.Context) {
 			})
 		return
 	}
-	user, err := models.UserRegister(regParams.UserName, regParams.PassWord,regParams.Actor,regParams.Sex)
+	user, err := models.UserRegister(regParams.UserName, regParams.PassWord, regParams.Actor, regParams.Sex)
 	if err != nil {
 		c.JSON(http.StatusOK,
 			ApiRes{

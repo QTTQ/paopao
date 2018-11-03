@@ -2,7 +2,7 @@
  * @Author: QTTQ
  * @Date: 2018-10-23 11:19:50
  * @LastEditors: QTTQ
- * @LastEditTime: 2018-11-02 20:14:28
+ * @LastEditTime: 2018-11-03 16:50:53
  * @Email: 1321510155@qq.com
  */
 
@@ -48,12 +48,12 @@ type MyArticleParams struct {
 func MyArticle(c *gin.Context) {
 	myParams := MyArticleParams{}
 	c.Bind(&myParams)
-	uidInter, _ := c.Get("uid")
-	uinfoInter, _ := c.Get("udata")
+	uidIr, _ := c.Get("uid")
+	uinfoIr, _ := c.Get("udata")
 
-	uid := uidInter.(int)//取接口里的type类型
-	uininfo:=uinfoInter.(*models.User)
-	fmt.Println(uid,uininfo.Uid,"---------------uininfo-----------------") //取接口里的结构体
+	uid := uidIr.(int) //取接口里的type类型
+	uininfo := uinfoIr.(*models.User)
+	fmt.Println(uid, uininfo.Uid, "---------------uininfo-----------------") //取接口里的结构体
 	page, err := strconv.Atoi(myParams.Page)
 	allarticle, err := models.MyArticle(uid, page)
 	if err != nil {
