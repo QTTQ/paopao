@@ -2,7 +2,7 @@
  * @Author: QTTQ
  * @Date: 2018-10-25 13:25:44
  * @LastEditors: QTTQ
- * @LastEditTime: 2018-11-02 16:43:00
+ * @LastEditTime: 2018-11-03 13:31:34
  * @Email: 1321510155@qq.com
  */
 
@@ -19,7 +19,7 @@ type Article struct {
 	Id              int    `gorm:"AUTO_INCREMENT" form:"id" json:"id"`                              //id
 	Uid             int    `gorm:"type:int(10)" form:"uid" json:"uid"`                              //uid
 	Name            string `gorm:"type:char(100)" form:"name" json:"name"`                          //名字
-	Actor           string `gorm:"type:varchar(800)" form:"actor" json:"actor"`                     //名字
+	Actor           string `gorm:"type:varchar(800)" form:"avatarUrl" json:"avatarUrl"`                     //名字
 	Sex             int    `gorm:"type:int(10)" form:"sex" json:"sex"`                              //性别
 	Title           string `gorm:"type:varchar(100)" form:"title" json:"title"`                     //文章主题
 	Context         string `gorm:"type:varchar(200)" form:"context" json:"context"`                 //文章内容

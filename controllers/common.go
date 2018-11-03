@@ -15,6 +15,6 @@ type ApiRes struct {
 }
 
 type LoginParams struct {
-	Username string `form:"username" json:"username" binding:"required"`
+	Username string `form:"nickName" json:"nickName" binding:"required"`
 	Password string `form:"password" json:"password" bingding:"required"`
 }

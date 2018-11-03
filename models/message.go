@@ -2,7 +2,7 @@
  * @Author: QTTQ
  * @Date: 2018-10-25 13:25:44
  * @LastEditors: QTTQ
- * @LastEditTime: 2018-10-25 16:50:23
+ * @LastEditTime: 2018-11-03 13:31:41
  * @Email: 1321510155@qq.com
  */
 
@@ -18,7 +18,7 @@ type Message struct {
 	ArticleId  int    `gorm:"type:int(20)" form:"articleId" json:"articleId"`
 	Uid        int    `gorm:"type:int(20)" form:"uid" json:"uid"`
 	UserName   string `gorm:"type:char(100)" form:"name" json:"name"`
-	Actor      string `gorm:"type:char(100)" form:"actor" json:"actor"`
+	Actor      string `gorm:"type:char(100)" form:"avatarUrl" json:"avatarUrl"`
 	Context    string `gorm:"type:varchar(200)" form:"context" json:"context"`
 	Thunmbs    int    `gorm:"type:int(20)" form:"thunmbs" json:"thunmbs"`
 	ThunmbsUid int    `gorm:"type:int(20)" form:"thunmbsUid" json:"thunmbsUid"`

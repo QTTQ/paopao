@@ -2,7 +2,7 @@
  * @Author: QTTQ
  * @Date: 2018-10-23 11:20:00
  * @LastEditors: QTTQ
- * @LastEditTime: 2018-10-25 14:02:11
+ * @LastEditTime: 2018-11-03 13:58:23
  * @Email: 1321510155@qq.com
  */
 
@@ -20,9 +20,10 @@ import (
 )
 
 func Register(c *gin.Context) {
-	regParams := LoginParams{}
+	regParams := models.User{}
 	err := c.Bind(&regParams)
-	if regParams.Password == "" || regParams.Username == "" {
+	fmt.Println(regParams,"--------------------------")
+	if regParams.PassWord == "" || regParams.UserName == "" {
 		c.JSON(http.StatusOK,
 			ApiRes{
 				Code: 1,
@@ -38,7 +39,7 @@ func Register(c *gin.Context) {
 			})
 		return
 	}
-	if len(regParams.Username) < 0 || len(regParams.Password) < 0 {
+	if len(regParams.UserName) < 0 || len(regParams.PassWord) < 0 {
 		c.JSON(http.StatusOK,
 			ApiRes{
 				Code: 1,
@@ -46,7 +47,7 @@ func Register(c *gin.Context) {
 			})
 		return
 	}
-	hadUser := models.GetName(regParams.Username) //判断是否已经注册
+	hadUser := models.GetName(regParams.UserName) //判断是否已经注册
 	if hadUser {
 		c.JSON(http.StatusOK,
 			ApiRes{
@@ -55,7 +56,7 @@ func Register(c *gin.Context) {
 			})
 		return
 	}
-	user, err := models.UserRegister(regParams.Username, regParams.Password)
+	user, err := models.UserRegister(regParams.UserName, regParams.PassWord,regParams.Actor,regParams.Sex)
 	if err != nil {
 		c.JSON(http.StatusOK,
 			ApiRes{

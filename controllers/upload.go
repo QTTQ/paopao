@@ -2,7 +2,7 @@
  * @Author: QTTQ
  * @Date: 2018-10-23 11:19:50
  * @LastEditors: QTTQ
- * @LastEditTime: 2018-10-25 16:47:53
+ * @LastEditTime: 2018-11-03 13:23:11
  * @Email: 1321510155@qq.com
  */
 
@@ -21,7 +21,7 @@ import (
 
 func Upload(c *gin.Context) {
 
-	name := c.PostForm("name")
+	name := c.PostForm("nickName")
 	fmt.Println(name)
 	file, header, err := c.Request.FormFile("upload")
 	if err != nil {

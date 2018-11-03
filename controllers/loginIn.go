@@ -2,7 +2,7 @@
  * @Author: QTTQ
  * @Date: 2018-10-23 11:19:50
  * @LastEditors: QTTQ
- * @LastEditTime: 2018-11-02 11:05:28
+ * @LastEditTime: 2018-11-03 14:37:52
  * @Email: 1321510155@qq.com
  */
 
@@ -20,9 +20,9 @@ import (
 )
 
 func LoginIn(c *gin.Context) {
-	loginParams := LoginParams{}
+	loginParams := models.User{}
 	err := c.Bind(&loginParams)
-	if len(loginParams.Username) <= 0 || len(loginParams.Password) <= 0 {
+	if len(loginParams.UserName) <= 0 || len(loginParams.PassWord) <= 0 {
 		c.JSON(http.StatusOK, ApiRes{
 			Code: 1,
 			Msg:  "账号或密码不能为空",
@@ -35,7 +35,7 @@ func LoginIn(c *gin.Context) {
 		})
 		return
 	}
-	user, err := models.UserLogin(loginParams.Username, loginParams.Password)
+	user, err := models.UserLogin(loginParams.UserName, loginParams.PassWord)
 	if err != nil {
 		c.JSON(http.StatusOK, ApiRes{
 			Code: 1,

@@ -2,7 +2,7 @@
  * @Author: QTTQ
  * @Date: 2018-10-23 11:20:00
  * @LastEditors: QTTQ
- * @LastEditTime: 2018-10-25 14:02:11
+ * @LastEditTime: 2018-11-03 13:33:08
  * @Email: 1321510155@qq.com
  */
 
@@ -21,7 +21,7 @@ type MessageParams struct {
 	ArticleId  string `form:"articleId" json:"articleId"`
 	Uid        string `form:"uid" json:"uid"`
 	UserName   string `form:"name" json:"name"`
-	Actor      string `form:"actor" json:"actor"`
+	Actor      string `form:"avatarUrl" json:"avatarUrl"`
 	Context    string `form:"context" json:"context"`
 	Thunmbs    string `form:"thunmbs" json:"thunmbs"`
 	ThunmbsUid string `form:"thunmbsUid" json:"thunmbsUid"`
