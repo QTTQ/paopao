@@ -2,7 +2,7 @@
  * @Author: QTTQ
  * @Date: 2018-10-23 11:20:13
  * @LastEditors: QTTQ
- * @LastEditTime: 2018-11-02 20:15:05
+ * @LastEditTime: 2018-11-07 20:52:10
  * @Email: 1321510155@qq.com
  */
 
@@ -59,6 +59,7 @@ func UserAuth() gin.HandlerFunc {
 				}
 			}
 		}
+		fmt.Println("---------------jwt失败-------")
 		c.Abort()
 		c.JSON(http.StatusUnauthorized, controllers.ApiRes{
 			Code: 1,

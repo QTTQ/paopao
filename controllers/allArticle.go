@@ -2,7 +2,7 @@
  * @Author: QTTQ
  * @Date: 2018-10-23 11:19:50
  * @LastEditors: QTTQ
- * @LastEditTime: 2018-11-03 16:50:53
+ * @LastEditTime: 2018-11-08 16:47:56
  * @Email: 1321510155@qq.com
  */
 
@@ -74,19 +74,26 @@ func MyArticle(c *gin.Context) {
 }
 
 type CreatArticleParams struct {
-	Uid     string `form:"uid" json:"uid"`         //uid
 	Title   string `form:"title" json:"title"`     //文章主题
 	Context string `form:"context" json:"context"` //文章内容
 }
 
 func CreatArticle(c *gin.Context) {
+
+	ua := c.GetHeader("User-Agent")
+	ct := c.GetHeader("Content-Type")
+	fmt.Println(ua,"-ua-","\n",ct,"--ct--")
+
+
+	
 	createParams := CreatArticleParams{}
 	c.Bind(&createParams)
-	uid, err := strconv.Atoi(createParams.Uid)
+	uidIr, _:=c.Get("uid")
+	uid:=uidIr.(int)
 	paths := ""
 	form, _ := c.MultipartForm()
-	files := form.File["upload"]
-
+	files := form.File["file"]
+	fmt.Println(form,files,"--------------------")
 	for _, file := range files {
 		paths += DST + file.Filename + ","
 		// Upload the file to specific dst.
@@ -109,6 +116,49 @@ func CreatArticle(c *gin.Context) {
 	})
 	return
 }
+// type CreatArticleParams struct {
+// 	// Uid     string `form:"uid" json:"uid"`         //uid
+// 	Title   string   `form:"title" json:"title"`     //文章主题
+// 	Context string   `form:"context" json:"context"` //文章内容
+// 	Paths   []string `form:"paths" json:"paths"`     //地址
+
+// }
+
+// func CreatArticle(c *gin.Context) {
+// 	fmt.Println("===============111111111111====================")
+
+// 	createParams := CreatArticleParams{}
+// 	c.Bind(&createParams)
+// 	paths := ""
+// 	fmt.Println(createParams.Context, "===================================")
+// 	uidIr, _ := c.Get("uid")
+
+// 	uid := uidIr.(int)
+// 	c.JSON(http.StatusOK, ApiRes{
+// 		Code: 1,
+// 		Msg:  "获取uid失败",
+// 	})
+// 	for _, file := range createParams.Paths {
+// 		paths += file + ","
+// 	}
+// 	article, err := models.CreatArticle(uid, createParams.Title, createParams.Context, paths)
+// 	if err != nil {
+// 		c.JSON(http.StatusOK, ApiRes{
+// 			Code: 1,
+// 			Msg:  "登录失败",
+// 		})
+// 		return
+// 	}
+// 	c.JSON(http.StatusOK, ApiRes{
+// 		Code: 0,
+// 		Msg:  "创建文章成功",
+// 		Data: gin.H{
+// 			"data": article,
+// 		},
+// 	})
+// 	return
+// }
+
 func DeleteArticle(c *gin.Context) {
 	deleteParams := MyArticleParams{}
 	c.Bind(&deleteParams)
@@ -161,8 +211,9 @@ func UpdateArticle(c *gin.Context) {
 
 func ThunmbToArticle(c *gin.Context) {
 	artIdStr := c.DefaultPostForm("artId", "0")
+	form, _ := c.MultipartForm()
 	artId, err := strconv.Atoi(artIdStr)
-	println(artId, "----------------------")
+	fmt.Println(artId,"----",form, "----------------------")
 	if err != nil || artId <= 0 {
 		c.JSON(http.StatusOK, ApiRes{
 			Code: 1,
