@@ -1,0 +1,15 @@
+{
+    "mysql_config" : {
+      "host"    : "127.0.0.1",
+      "user"    : "root",
+      "passwd"  : "12345678",
+      "port"    : "3306",
+      "database": "test"
+    },
+    "qiniu_config" : {
+      "accessKey" : "WibqQt92tbRkaMDha_v3sHl6n7yvbG7Ud-uif-Z6",
+      "secretKey" : "Ggx5VXORVO0m45m5OangpoZBuC2OTQg2sp1wzXmD",
+      "bucket"    : "paopao",
+      "url"       : "http://pivw2fbji.bkt.clouddn.com/"
+    }
+  }

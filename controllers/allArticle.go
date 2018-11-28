@@ -2,16 +2,21 @@
  * @Author: QTTQ
  * @Date: 2018-10-23 11:19:50
  * @LastEditors: QTTQ
- * @LastEditTime: 2018-11-08 16:47:56
+ * @LastEditTime: 2018-11-28 20:15:31
  * @Email: 1321510155@qq.com
  */
 
 package controllers
 
 import (
+	"context"
 	"fmt"
+	"github.com/akkuman/parseConfig"
 	"github.com/gin-gonic/gin"
+	"github.com/qiniu/api.v7/auth/qbox"
+	"github.com/qiniu/api.v7/storage"
 	"net/http"
+	"os"
 	"paopao/models"
 	"strconv"
 )
@@ -78,27 +83,73 @@ type CreatArticleParams struct {
 	Context string `form:"context" json:"context"` //文章内容
 }
 
+func uploadQiNiu(localFile string) {
+	//取出配置文件
+	config := parseConfig.New("config/conf.json")
+	//七牛云配置
+	// downLoadDirPath := "./"
+	accessKey := config.Get("qiniu_config > accessKey").(string)
+	secretKey := config.Get("qiniu_config > secretKey").(string)
+	bucket := config.Get("qiniu_config > bucket").(string)
+	fmt.Println(accessKey, secretKey, bucket, "-----mmmmm-----")
+	// videoDomain := config.Get("qiniu_config > url").(string)
+
+	mac := qbox.NewMac(accessKey, secretKey)
+	putPolicy := storage.PutPolicy{
+		Scope: bucket,
+	}
+	upToken := putPolicy.UploadToken(mac)
+	fmt.Println(upToken)
+	cfg := storage.Config{}
+	//华北机房
+	cfg.Zone = &storage.ZoneHuadong
+	// 是否使用https域名
+	cfg.UseHTTPS = false
+	// 上传是否使用CDN上传加速
+	cfg.UseCdnDomains = false
+	// key := "github-x.png"
+	key :=localFile
+	// 构建表单上传的对象
+	formUploader := storage.NewFormUploader(&cfg)
+	ret := storage.PutRet{}
+	// 可选配置
+	putExtra := storage.PutExtra{
+		Params: map[string]string{
+			"x:name": "github logo",
+		},
+	}
+	err := formUploader.PutFile(context.Background(), &ret, upToken, key, localFile, &putExtra)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(ret.Key, ret.Hash)
+}
+
 func CreatArticle(c *gin.Context) {
+	// ua := c.GetHeader("User-Agent")
+	// ct := c.GetHeader("Content-Type")
+	// fmt.Println(ua, "-ua-", "\n", ct, "--ct--")
 
-	ua := c.GetHeader("User-Agent")
-	ct := c.GetHeader("Content-Type")
-	fmt.Println(ua,"-ua-","\n",ct,"--ct--")
-
-
-	
 	createParams := CreatArticleParams{}
 	c.Bind(&createParams)
-	uidIr, _:=c.Get("uid")
-	uid:=uidIr.(int)
+	uidIr, _ := c.Get("uid")
+	uid := uidIr.(int)
 	paths := ""
 	form, _ := c.MultipartForm()
 	files := form.File["file"]
-	fmt.Println(form,files,"--------------------")
+	fmt.Println(form, files, "--------------------")
 	for _, file := range files {
 		paths += DST + file.Filename + ","
 		// Upload the file to specific dst.
 		c.SaveUploadedFile(file, DST+file.Filename)
+		uploadQiNiu(DST + file.Filename) //上传七牛
+		err := os.Remove(DST + file.Filename)
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
+
 	article, err := models.CreatArticle(uid, createParams.Title, createParams.Context, paths)
 	if err != nil {
 		c.JSON(http.StatusOK, ApiRes{
@@ -116,6 +167,7 @@ func CreatArticle(c *gin.Context) {
 	})
 	return
 }
+
 // type CreatArticleParams struct {
 // 	// Uid     string `form:"uid" json:"uid"`         //uid
 // 	Title   string   `form:"title" json:"title"`     //文章主题
@@ -213,7 +265,7 @@ func ThunmbToArticle(c *gin.Context) {
 	artIdStr := c.DefaultPostForm("artId", "0")
 	form, _ := c.MultipartForm()
 	artId, err := strconv.Atoi(artIdStr)
-	fmt.Println(artId,"----",form, "----------------------")
+	fmt.Println(artId, "----", form, "----------------------")
 	if err != nil || artId <= 0 {
 		c.JSON(http.StatusOK, ApiRes{
 			Code: 1,
