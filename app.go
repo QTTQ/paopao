@@ -16,6 +16,8 @@ func main() {
 		new(models.User),
 		new(models.Article),
 		new(models.Message),
+		new(models.ShouzhenSelectData),
+		new(models.ReportForm),
 	)
 	defer db.DB.Close()
 	router := routers.InitRouters()

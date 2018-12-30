@@ -2,7 +2,7 @@
  * @Author: QTTQ
  * @Date: 2018-10-23 11:19:50
  * @LastEditors: QTTQ
- * @LastEditTime: 2018-11-29 15:53:25
+ * @LastEditTime: 2018-12-06 11:03:15
  * @Email: 1321510155@qq.com
  */
 
@@ -115,7 +115,6 @@ func MyArticle(c *gin.Context) {
 	c.Bind(&myParams)
 	uidIr, _ := c.Get("uid")
 	uinfoIr, _ := c.Get("udata")
-
 	uid := uidIr.(int) //取接口里的type类型
 	uininfo := uinfoIr.(*models.User)
 	fmt.Println(uid, uininfo.Uid, "---------------uininfo-----------------") //取接口里的结构体
