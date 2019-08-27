@@ -3,17 +3,24 @@ package db
 import (
 	"errors"
 	"fmt"
-	"github.com/jinzhu/gorm"
 	"paopao/config"
+
+	// aaaaa
 	_ "github.com/go-sql-driver/mysql"
+
+	"github.com/jinzhu/gorm"
 )
 
 var (
-	DB        *gorm.DB
+	// DB aaaa
+	DB *gorm.DB
+	// ErrDBNull aaa
 	ErrDBNull = errors.New("db is null,please connect first")
 )
 
+//ConnectAndInit aaaa
 func ConnectAndInit(conf config.ConfStruct, models ...interface{}) {
+
 	// dbUser := conf.DB.User
 	// dbPass := conf.DB.Password
 	// dbHost := conf.DB.Host
@@ -36,6 +43,8 @@ func ConnectAndInit(conf config.ConfStruct, models ...interface{}) {
 	Connect(dbUser, dbPass, dbHost, dbPort, dbName)
 	Init(models...)
 }
+
+// Init aaa
 func Init(models ...interface{}) error {
 	if DB == nil {
 		return ErrDBNull
@@ -43,6 +52,8 @@ func Init(models ...interface{}) error {
 	DB.AutoMigrate(models...)
 	return nil
 }
+
+// Connect aaa
 func Connect(user, password, host string, dbPort, dbName string) {
 	db, err := gorm.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", user, password, host, dbPort, dbName))
 	if err != nil {

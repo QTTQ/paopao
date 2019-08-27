@@ -2,9 +2,9 @@
     "mysql_config" : {
       "host"    : "127.0.0.1",
       "user"    : "root",
-      "passwd"  : "12345678",
+      "passwd"  : "123456",
       "port"    : "3306",
-      "database": "test"
+      "database": "paopao"
     },
     "qiniu_config" : {
       "accessKey" : "WibqQt92tbRkaMDha_v3sHl6n7yvbG7Ud-uif-Z6",
