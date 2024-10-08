@@ -19,6 +19,7 @@ func main() {
 		new(models.ShouzhenSelectData),
 		new(models.ReportForm),
 	)
+
 	defer db.DB.Close()
 	router := routers.InitRouters()
 	// router.Run(":8080") //用gin 路由启动 ----
